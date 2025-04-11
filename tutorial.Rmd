@@ -1,0 +1,77 @@
+---
+title: "functions"
+author: "Andrew Winter"
+date: "2025-04-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Functions for *Star Trek: The Next Generation* screenplay text analysis
+
+Load a few packages
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(polite)
+library(readr)
+library(rvest)
+
+#library(ggplot2)
+#library(stringr)
+#library(tidyr)
+#library(tidytext)
+```
+
+More description
+
+```{r session}
+host <- "https://www.st-minutiae.com"
+session <- bow(host)
+#html <- scrape(nod(session, path="resources/scripts"), content="text/html; charset=UTF-8")
+html <- session |>
+  nod(path="resources/scripts") |>
+  scrape(content="text/html; charset=UTF-8")
+```
+
+```{r }
+main <- html_node(html, "#main")
+titles <- html_text2(html_nodes(main, "h2"))
+episodes <- main |>
+  html_nodes(".episode-list") |>
+  html_nodes("li")
+```
+
+
+
+
+```{r}
+shows <- html_elements(html, "h2")
+episodes <- html_elements(html, ".episode-list")
+```
+```{r misc old code}
+session <- bow("https://www.cheese.com/by_type", force = TRUE)
+result <- scrape(session, query=list(t="semi-soft", per_page=100))
+
+#map(letters, ~scrape(session, query = list(per_page=100,i=.x)) )
+result <- scrape(session, content="text/html; charset=UTF-8")
+```
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
